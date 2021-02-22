@@ -18,7 +18,7 @@ public class Swagger2Configuration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("top.codecrab"))
+                .apis(RequestHandlerSelectors.basePackage("top.codecrab.vueblog"))
                 .paths(PathSelectors.any())
                 .build();
     }

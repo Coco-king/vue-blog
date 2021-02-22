@@ -45,7 +45,7 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("codecrab");
         gc.setOpen(false);
-        gc.setSwagger2(true); // 实体属性 Swagger2 注解
+        // gc.setSwagger2(true); // 实体属性 Swagger2 注解,没卵用加了报错
         gc.setServiceName("%sService");
         mpg.setGlobalConfig(gc);
 

@@ -58,7 +58,9 @@ public class AccountRealm extends AuthorizingRealm {
         //判断该用户是否存在
         if (user == null) throw new UnknownAccountException("该账户不存在！");
         //判断用户是否激活
-        if (user.getStatus() == -1) throw new LockedAccountException("账户已被锁定！");
+        if (user.getStatus() == 0) throw new LockedAccountException("账户未激活，请到邮箱激活邮件激活！");
+        //判断用户是否被封号
+        if (user.getStatus() == -1) throw new LockedAccountException("账户已被封禁！");
 
         //把一些可以公开的数据拷贝到AccountProfile，返回给用户
         AccountProfile profile = new AccountProfile();
