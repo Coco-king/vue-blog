@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.web.bind.annotation.*;
 import top.codecrab.vueblog.base.BaseController;
+import top.codecrab.vueblog.common.annotation.AccessLimit;
 import top.codecrab.vueblog.common.response.Result;
 import top.codecrab.vueblog.entity.User;
 
@@ -25,12 +26,11 @@ import javax.validation.Valid;
 @Api(tags = "用户管理")
 public class UserController extends BaseController {
 
-    @RequiresAuthentication //必须登录才能访问本接口
+    @AccessLimit(seconds = 60, maxCount = 10)
     @GetMapping("/index")
     @ApiOperation("测试程序")
     public Result index() {
-        User user = userService.getById(1L);
-        return Result.success(user);
+        return Result.success(null);
     }
 
     @PostMapping("/save")

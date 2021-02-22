@@ -6,6 +6,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.web.bind.annotation.*;
 
 import top.codecrab.vueblog.base.BaseController;
+import top.codecrab.vueblog.common.annotation.AccessLimit;
 import top.codecrab.vueblog.common.response.Result;
 import top.codecrab.vueblog.entity.Blog;
 
@@ -35,6 +36,7 @@ public class BlogController extends BaseController {
         return blogService.blogDetail(id);
     }
 
+    @AccessLimit(seconds = 60 * 60, maxCount = 10)
     @RequiresAuthentication
     @PostMapping("/edit")
     public Result editBlog(@Valid @RequestBody Blog blog) {
