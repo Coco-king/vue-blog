@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.codecrab.vueblog.base.BaseController;
 import top.codecrab.vueblog.common.dto.LoginDto;
+import top.codecrab.vueblog.common.dto.RegisterDto;
 import top.codecrab.vueblog.common.response.Result;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +20,8 @@ import javax.validation.Valid;
 public class AccountController extends BaseController {
 
     @PostMapping("/register")
-    public Result register(@Valid @RequestBody LoginDto loginDto, HttpServletResponse response) {
-        return userService.login(loginDto, response);
+    public Result register(@Valid @RequestBody RegisterDto registerDto, HttpServletResponse response) {
+        return userService.register(registerDto, response);
     }
 
     @PostMapping("/login")

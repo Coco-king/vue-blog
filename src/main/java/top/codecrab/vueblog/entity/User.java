@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -46,6 +47,9 @@ public class User implements Serializable {
     @NotBlank(message = "密码不能为空")
     @Length(min = 8, max = 16, message = "密码必须在8-16位之间")
     private String password;
+
+    @Pattern(regexp = "0?(13|14|15|17|18)[0-9]{9}", message = "手机号格式不正确")
+    private String phone;
 
     private Integer status;
 

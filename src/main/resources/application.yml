@@ -4,6 +4,8 @@ spring:
     url: jdbc:mysql://localhost:3306/vue-blog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: root
+  redis:
+    host: 127.0.0.1
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
 shiro-redis:
@@ -18,3 +20,6 @@ vue-blog:
     expire: 604800
     # 从指定头获取token
     header: Authorization
+  user:
+    # 用户的默认头像
+    default-avatar: https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg

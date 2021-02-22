@@ -32,6 +32,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     /**
      * 分页查询博客
      */
+    @Override
     public Result pageList(Integer page, Integer size) {
         if (page == null || page < 1) page = 1;
         if (size == null || size < 5) size = 5;
@@ -44,6 +45,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     /**
      * 博客详情
      */
+    @Override
     public Result blogDetail(Long id) {
         if (id == null || id < 1) Result.fail("请求参数有误！");
         //根据id和状态查询博客，1：正常 0：删除 -1：封禁
@@ -55,6 +57,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     /**
      * 编辑或新增博客
      */
+    @Override
     public Result editBlog(Blog blog) {
         AccountProfile profile = ShiroUtils.getAccountProfile();
         Long blogId = blog.getId();
@@ -87,6 +90,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     /**
      * 删除博客
      */
+    @Override
     public Result deleteBlog(Long id) {
         if (id == null || id < 1) Result.fail("请求参数有误！");
         //1：正常 0：删除 -1：封禁

@@ -1,6 +1,7 @@
 package top.codecrab.vueblog.service;
 
 import top.codecrab.vueblog.common.dto.LoginDto;
+import top.codecrab.vueblog.common.dto.RegisterDto;
 import top.codecrab.vueblog.common.response.Result;
 import top.codecrab.vueblog.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -21,4 +22,14 @@ public interface UserService extends IService<User> {
      * 用户登录
      */
     Result login(LoginDto loginDto, HttpServletResponse response);
+
+    /**
+     * 用户注册
+     */
+    Result register(RegisterDto registerDto, HttpServletResponse response);
+
+    /**
+     * 发送验证码
+     */
+    Result sendVerifyCode(String phone);
 }
