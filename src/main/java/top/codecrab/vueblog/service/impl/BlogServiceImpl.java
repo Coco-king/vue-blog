@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import top.codecrab.vueblog.shiro.AccountProfile;
 import top.codecrab.vueblog.utils.ShiroUtils;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * <p>
@@ -69,6 +71,11 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             blog.setStatus(1);
             blog.setUserId(userId);
             blog.setCreated(LocalDateTime.now());
+            //初始化摘要
+            if (StringUtils.isBlank(blog.getDescription())) {
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");
+                blog.setDescription(profile.getUsername() + " 创建于 " + dateFormat.format(blog.getCreated()));
+            }
             //保存
             boolean save = this.save(blog);
             return save ? new Result(201, "发布成功", null) : Result.fail("发布失败");
@@ -77,6 +84,11 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         } else {
             Blog one = this.getOne(new QueryWrapper<Blog>().eq("id", blogId).eq("status", 1));
             if (one == null) return Result.fail("未找到要编辑的文章");
+            //初始化摘要
+            if (StringUtils.isBlank(blog.getDescription())) {
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");
+                blog.setDescription(profile.getUsername() + " 修改于 " + dateFormat.format(LocalDateTime.now()));
+            }
             //编辑博客，把新传入的blog覆盖老的one
             one.setContent(blog.getContent());
             one.setDescription(blog.getDescription());

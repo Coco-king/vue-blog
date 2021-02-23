@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public Result runtimeException(RuntimeException runtimeException) {
         log.error("运行时异常 ======> {}", runtimeException.getMessage());
-        return Result.fail(runtimeException.getMessage());
+        return Result.fail("请求参数非法");
     }
 
 }

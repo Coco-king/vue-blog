@@ -50,7 +50,7 @@ public class AccountRealm extends AuthorizingRealm {
         JwtToken token = (JwtToken) authenticationToken;
         log.info("jwt =======> {}", token.toString());
 
-        //在用户注册时已经把userId放入了Subject中，现在直接根据传入的token取去
+        //在用户登录时已经把userId放入了Subject中，现在直接根据传入的token取出
         String userId = jwtUtils.getClaimByToken((String) token.getPrincipal()).getSubject();
         //在数据库查询该用户信息
         User user = userService.getById(userId);
@@ -66,7 +66,7 @@ public class AccountRealm extends AuthorizingRealm {
         AccountProfile profile = new AccountProfile();
         BeanUtils.copyProperties(user, profile);
         log.info("AccountProfile ======> {}", profile.toString());
-
+        String name = getName();
         //三个参数依次为 用户部分信息，用户登录的jwt信息，接口中的方法
         return new SimpleAuthenticationInfo(profile, token.getCredentials(), getName());
     }
