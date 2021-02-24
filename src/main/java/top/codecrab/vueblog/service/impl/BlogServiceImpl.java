@@ -70,6 +70,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             //新增博客
             blog.setStatus(1);
             blog.setUserId(userId);
+            blog.setUserName(profile.getUsername());
             blog.setCreated(LocalDateTime.now());
             //初始化摘要
             if (StringUtils.isBlank(blog.getDescription())) {

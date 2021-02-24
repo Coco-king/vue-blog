@@ -49,4 +49,12 @@ public class BlogController extends BaseController {
         return blogService.deleteBlog(id);
     }
 
+    /**
+     * 判断token是否合法
+     */
+    @RequiresAuthentication
+    @GetMapping("/option")
+    public Result option() {
+       return Result.success(null);
+    }
 }

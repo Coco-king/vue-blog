@@ -37,6 +37,8 @@ public class Blog implements Serializable {
 
     private Long userId;
 
+    private String userName;
+
     @NotBlank(message = "标题不能为空")
     @Length(max = 100, message = "标题最大长度为100个汉字")
     private String title;
