@@ -10,4 +10,4 @@ vue-blog:
     header: Authorization
   user:
     # 用户的默认头像
-    default-avatar: https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg
+    default-avatar: https://s3.ax1x.com/2021/02/24/yXdeoj.jpg
