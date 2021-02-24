@@ -38,9 +38,16 @@ public class BlogController extends BaseController {
 
     @AccessLimit(seconds = 60 * 60, maxCount = 50)
     @RequiresAuthentication
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     public Result editBlog(@Valid @RequestBody Blog blog) {
         return blogService.editBlog(blog);
+    }
+
+    @AccessLimit(seconds = 60 * 60, maxCount = 50)
+    @RequiresAuthentication
+    @PostMapping("/add")
+    public Result addBlog(@Valid @RequestBody Blog blog) {
+        return blogService.addBlog(blog);
     }
 
     @RequiresAuthentication

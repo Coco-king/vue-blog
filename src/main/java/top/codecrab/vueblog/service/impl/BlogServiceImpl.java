@@ -63,24 +63,13 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     public Result editBlog(Blog blog) {
         AccountProfile profile = ShiroUtils.getAccountProfile();
         Long blogId = blog.getId();
+        //根据传入的博客ID查到记录里的博客所属ID比较
+        Blog byId = this.getById(blogId);
+        Assert.notNull(byId, "未找到要编辑的文章");
         Long userId = profile.getId();
         //文章的所属用户不等于当前用户
-        if (!userId.equals(blog.getUserId())) return Result.fail("你没有权限修改不属于你的文章");
-        if (blogId == null) {
-            //新增博客
-            blog.setStatus(1);
-            blog.setUserId(userId);
-            blog.setUserName(profile.getUsername());
-            blog.setCreated(LocalDateTime.now());
-            //初始化摘要
-            if (StringUtils.isBlank(blog.getDescription())) {
-                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");
-                blog.setDescription(profile.getUsername() + " 创建于 " + dateFormat.format(blog.getCreated()));
-            }
-            //保存
-            boolean save = this.save(blog);
-            return save ? new Result(201, "发布成功", null) : Result.fail("发布失败");
-        } else if (blogId < 1) {
+        if (!userId.equals(byId.getUserId())) return Result.fail("你没有权限修改不属于你的文章");
+        if (blogId < 1) {
             return Result.fail("请求参数有误");
         } else {
             Blog one = this.getOne(new QueryWrapper<Blog>().eq("id", blogId).eq("status", 1));
@@ -98,6 +87,25 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             boolean update = this.updateById(one);
             return update ? new Result(201, "编辑成功", null) : Result.fail("编辑失败");
         }
+    }
+
+    @Override
+    public Result addBlog(Blog blog) {
+        AccountProfile profile = ShiroUtils.getAccountProfile();
+        Long userId = profile.getId();
+        //新增博客
+        blog.setStatus(1);
+        blog.setUserId(userId);
+        blog.setUserName(profile.getUsername());
+        blog.setCreated(LocalDateTime.now());
+        //初始化摘要
+        if (StringUtils.isBlank(blog.getDescription())) {
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");
+            blog.setDescription(profile.getUsername() + " 创建于 " + dateFormat.format(blog.getCreated()));
+        }
+        //保存
+        boolean save = this.save(blog);
+        return save ? new Result(201, "发布成功", null) : Result.fail("发布失败");
     }
 
     /**

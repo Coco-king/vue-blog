@@ -33,4 +33,6 @@ public interface BlogService extends IService<Blog> {
      * 删除博客
      */
     Result deleteBlog(Long id);
+
+    Result addBlog(Blog blog);
 }
