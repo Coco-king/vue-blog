@@ -29,7 +29,9 @@ import top.codecrab.vueblog.utils.SmsUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -77,7 +79,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Assert.isNull(user, "手机号已被注册");
         user = new User();
         user.setUsername(registerDto.getUsername());
-        user.setAvatar(avatar);
+        String[] split = avatar.split(",");
+        int i = new Random().nextInt(split.length);
+        user.setAvatar(split[i]);
         user.setEmail(registerDto.getEmail());
         user.setPhone(registerDto.getPhone());
         //设置状态 0：未激活 1：已激活 -1：已封禁

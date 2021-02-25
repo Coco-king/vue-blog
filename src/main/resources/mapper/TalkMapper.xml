@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.codecrab.vueblog.mapper.TalkMapper">
+
+    <resultMap id="talkNodeListMap" type="top.codecrab.vueblog.entity.ext.TalkNode">
+        <id property="id" column="par_id"/>
+        <result property="username" column="par_username"/>
+        <result property="content" column="par_content"/>
+        <result property="created" column="par_created" javaType="java.time.LocalDateTime"/>
+        <result property="commend" column="par_commend"/>
+        <result property="avatar" column="par_avatar"/>
+        <result property="replyName" column="par_reply_name"/>
+        <result property="userId" column="par_user_id"/>
+        <result property="blogId" column="par_blog_id"/>
+        <result property="visible" column="par_visible"/>
+        <result property="parentId" column="par_parent_id"/>
+        <collection property="subTalks" ofType="top.codecrab.vueblog.entity.ext.TalkNode">
+            <id property="id" column="sub_id"/>
+            <result property="username" column="sub_username"/>
+            <result property="content" column="sub_content"/>
+            <result property="created" column="sub_created" javaType="java.time.LocalDateTime"/>
+            <result property="commend" column="sub_commend"/>
+            <result property="avatar" column="sub_avatar"/>
+            <result property="replyName" column="sub_reply_name"/>
+            <result property="userId" column="sub_user_id"/>
+            <result property="blogId" column="sub_blog_id"/>
+            <result property="visible" column="sub_visible"/>
+            <result property="parentId" column="sub_parent_id"/>
+        </collection>
+    </resultMap>
+
+    <select id="getList" parameterType="java.lang.Long" resultMap="talkNodeListMap">
+        SELECT a.`id`         par_id,
+               a.`username`   par_username,
+               a.`content`    par_content,
+               a.`created`    par_created,
+               a.`user_id`    par_user_id,
+               a.`avatar`     par_avatar,
+               a.`parent_id`  par_parent_id,
+               a.`reply_name` par_reply_name,
+               a.`commend`    par_commend,
+               b.`id`         sub_id,
+               b.`username`   sub_username,
+               b.`content`    sub_content,
+               b.`avatar`     sub_avatar,
+               b.`user_id`    sub_user_id,
+               b.`created`    sub_created,
+               b.`reply_name` sub_reply_name,
+               b.`parent_id`  sub_parent_id,
+               b.`commend`    sub_commend
+        FROM m_talk a
+                 LEFT JOIN m_talk b
+                           ON a.`id` = b.`parent_id`
+        WHERE a.`parent_id` = 0
+          AND a.`blog_id` = #{blogId}
+          AND a.`visible` = 1
+        ORDER BY a.`commend` DESC, a.`created` DESC
+    </select>
+
+    <select id="getAllList" resultMap="talkNodeListMap">
+        SELECT a.`id`         par_id,
+               a.`username`   par_username,
+               a.`content`    par_content,
+               a.`created`    par_created,
+               a.`user_id`    par_user_id,
+               a.`blog_id`    par_blog_id,
+               a.`avatar`     par_avatar,
+               a.`parent_id`  par_parent_id,
+               a.`reply_name` par_reply_name,
+               a.`commend`    par_commend,
+               a.`visible`    par_visible,
+               b.`id`         sub_id,
+               b.`username`   sub_username,
+               b.`content`    sub_content,
+               b.`avatar`     sub_avatar,
+               b.`user_id`    sub_user_id,
+               b.`blog_id`    sub_blog_id,
+               b.`created`    sub_created,
+               b.`reply_name` sub_reply_name,
+               b.`parent_id`  sub_parent_id,
+               b.`visible`    sub_visible,
+               b.`commend`    sub_commend
+        FROM m_talk a
+                 LEFT JOIN m_talk b
+                           ON a.`id` = b.`parent_id`
+        WHERE a.`parent_id` = 0
+        ORDER BY a.`commend` DESC, a.`created` DESC
+    </select>
+
+    <select id="getAllNoVisibleList" resultMap="talkNodeListMap">
+        SELECT a.`id`         par_id,
+               a.`username`   par_username,
+               a.`content`    par_content,
+               a.`created`    par_created,
+               a.`user_id`    par_user_id,
+               a.`blog_id`    par_blog_id,
+               a.`avatar`     par_avatar,
+               a.`parent_id`  par_parent_id,
+               a.`reply_name` par_reply_name,
+               a.`commend`    par_commend,
+               a.`visible`    par_visible,
+               b.`id`         sub_id,
+               b.`username`   sub_username,
+               b.`content`    sub_content,
+               b.`avatar`     sub_avatar,
+               b.`user_id`    sub_user_id,
+               b.`blog_id`    sub_blog_id,
+               b.`created`    sub_created,
+               b.`reply_name` sub_reply_name,
+               b.`parent_id`  sub_parent_id,
+               b.`visible`    sub_visible,
+               b.`commend`    sub_commend
+        FROM m_talk a
+                 LEFT JOIN m_talk b
+                           ON a.`id` = b.`parent_id`
+        WHERE a.`parent_id` = 0
+          AND a.`visible` = 0
+        ORDER BY a.`commend` DESC, a.`created` DESC
+    </select>
+</mapper>

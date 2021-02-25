@@ -66,7 +66,6 @@ public class AccountRealm extends AuthorizingRealm {
         AccountProfile profile = new AccountProfile();
         BeanUtils.copyProperties(user, profile);
         log.info("AccountProfile ======> {}", profile.toString());
-        String name = getName();
         //三个参数依次为 用户部分信息，用户登录的jwt信息，接口中的方法
         return new SimpleAuthenticationInfo(profile, token.getCredentials(), getName());
     }
