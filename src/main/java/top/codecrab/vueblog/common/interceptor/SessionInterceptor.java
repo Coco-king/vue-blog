@@ -1,11 +1,8 @@
 package top.codecrab.vueblog.common.interceptor;
 
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -71,7 +68,7 @@ public class SessionInterceptor implements HandlerInterceptor {
                 // count加1
                 count++;
                 log.info("访问次数 =======> {}", count);
-                redisTemplate.opsForValue().set(key, String.valueOf(count));
+                redisTemplate.opsForValue().set(key, String.valueOf(count), seconds, TimeUnit.SECONDS);
                 return true;
             }
 
@@ -79,7 +76,7 @@ public class SessionInterceptor implements HandlerInterceptor {
             if (count >= maxCount) {
                 //继续记录
                 count++;
-                redisTemplate.opsForValue().set(key, String.valueOf(count));
+                redisTemplate.opsForValue().set(key, String.valueOf(count), seconds, TimeUnit.SECONDS);
                 log.info("访问次数 =======> {}", count);
                 //返回 json 请求过于频繁请稍后再试
                 String jsonStr = JSONUtil.toJsonStr(new Result(9999, "请求过于频繁请稍后再试", null));
